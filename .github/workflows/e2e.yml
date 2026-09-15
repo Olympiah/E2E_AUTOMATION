@@ -45,7 +45,17 @@ jobs:
       - name: Type check
         run: npm run typecheck
 
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
       - name: Install Playwright browsers
+        # Playwright skips re-downloading a browser build that's already present
+        # at this exact version, so a cache hit makes this step near-instant;
+        # the apt (--with-deps) part still runs but is fast since most system
+        # packages are already on the runner image.
         run: npx playwright install --with-deps chromium
 
       - name: Determine test grep

@@ -22,4 +22,9 @@ export class BasePage {
   get sidebarUserDropdown(): Locator {
     return this.page.locator('.oxd-userdropdown-tab');
   }
+
+  /** "Required"/format validation messages shown under OXD form fields. */
+  get fieldValidationMessages(): Locator {
+    return this.page.locator('.oxd-input-group__message');
+  }
 }

@@ -18,4 +18,15 @@ test.describe('Recruitment', () => {
 
     await expect(page.locator('.oxd-table')).toBeVisible();
   });
+
+  test('submitting the add candidate form empty shows required errors @regression', async ({
+    recruitmentPage,
+  }) => {
+    await recruitmentPage.openAddCandidateForm();
+
+    await recruitmentPage.saveButton.click();
+
+    await expect(recruitmentPage.fieldValidationMessages.first()).toBeVisible();
+    await expect(recruitmentPage.fieldValidationMessages).toHaveCount(3);
+  });
 });

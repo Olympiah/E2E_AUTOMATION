@@ -11,9 +11,9 @@ test.describe('PIM', () => {
     await expect(pimPage.employeeTableRows.first()).toBeVisible();
   });
 
-  test('add new employee @regression', async ({ pimPage, page }) => {
-    const firstName = uniqueName('First');
-    const lastName = uniqueName('Last');
+  test('add new employee @regression', async ({ pimPage, page }, testInfo) => {
+    const firstName = uniqueName('First', testInfo.parallelIndex);
+    const lastName = uniqueName('Last', testInfo.parallelIndex);
 
     await pimPage.addEmployee(firstName, lastName);
 

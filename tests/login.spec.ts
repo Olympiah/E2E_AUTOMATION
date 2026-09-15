@@ -1,5 +1,5 @@
 import { test, expect } from '../src/fixtures/pageFixtures';
-import { credentials } from '../src/data/testData';
+import { credentials, loginEdgeCases } from '../src/data/testData';
 
 test.use({ storageState: { cookies: [], origins: [] } });
 
@@ -32,4 +32,27 @@ test.describe('Login', () => {
 
     await loginPage.expectUrlContains('requestPasswordResetCode');
   });
+
+  // Username matching was confirmed case-insensitive by manual inspection — an
+  // actual finding about the app, not an assumption, so it's asserted explicitly
+  // rather than folded into the edge-case table below (which is for rejections).
+  test('login accepts a lowercase username variant @regression', async ({ loginPage, dashboardPage }) => {
+    await loginPage.open();
+    await loginPage.login(credentials.valid.username.toLowerCase(), credentials.valid.password);
+
+    await expect(dashboardPage.pageHeader).toHaveText('Dashboard');
+  });
+
+  for (const { name, username, password, expected } of loginEdgeCases) {
+    test(`login edge case: ${name} @regression`, async ({ loginPage, page }) => {
+      await loginPage.open();
+      await loginPage.login(username, password);
+
+      if (expected === 'invalid-credentials') {
+        await expect(loginPage.errorAlert).toHaveText('Invalid credentials');
+      } else {
+        await expect(page.locator('.oxd-input-group__message')).toHaveCount(2);
+      }
+    });
+  }
 });

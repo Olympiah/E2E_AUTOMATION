@@ -62,8 +62,14 @@ jobs:
         id: grep
         shell: bash
         run: |
-          if [ "${{ github.event_name }}" = "schedule" ] || [ "${{ github.event.inputs.suite }}" = "regression" ]; then
-            echo "pattern=@regression|@smoke" >> "$GITHUB_OUTPUT"
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "pattern=@smoke" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event_name }}" = "push" ]; then
+            echo "pattern=@smoke|@regression" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event_name }}" = "schedule" ]; then
+            echo "pattern=@smoke|@regression" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event.inputs.suite }}" = "regression" ]; then
+            echo "pattern=@smoke|@regression" >> "$GITHUB_OUTPUT"
           else
             echo "pattern=@smoke" >> "$GITHUB_OUTPUT"
           fi
@@ -88,7 +94,7 @@ jobs:
           retention-days: 14
 
       - name: File issue on regression failure
-        if: failure() && (github.event_name == 'schedule' || steps.grep.outputs.pattern == '@regression|@smoke')
+        if: failure() && (github.event_name == 'schedule' || steps.grep.outputs.pattern == '@smoke|@regression')
         uses: actions/github-script@v7
         with:
           script: |

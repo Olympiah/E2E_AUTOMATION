@@ -17,7 +17,7 @@ export class PimPage extends BasePage {
     super(page);
     this.pageHeader = page.locator('.oxd-topbar-header-breadcrumb-module');
     this.addButton = page.getByRole('button', { name: 'Add' });
-    this.employeeNameSearchInput = page.getByPlaceholder('Type for hints...');
+    this.employeeNameSearchInput = page.getByPlaceholder('Type for hints...').first();
     this.searchButton = page.getByRole('button', { name: 'Search' });
     this.employeeTableRows = page.locator('.oxd-table-card');
 

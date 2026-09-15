@@ -1,6 +1,6 @@
 # OrangeHRM E2E Automation
 
-End-to-end test suite for the [OrangeHRM demo](https://opensource-demo.orangehrmlive.com), built with [Playwright](https://playwright.dev) + TypeScript using the Page Object Model.
+End-to-end test suite for the [OrangeHRM demo](https://opensource-demo.orangehrmlive.com), built with [Playwright](https://playwright.dev) + TypeScript.
 
 ## Stack
 

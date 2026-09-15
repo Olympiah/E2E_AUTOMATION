@@ -7,6 +7,7 @@ export class PimPage extends BasePage {
   readonly employeeNameSearchInput: Locator;
   readonly searchButton: Locator;
   readonly employeeTableRows: Locator;
+  readonly deleteConfirmButton: Locator;
 
   // Add Employee form
   readonly firstNameInput: Locator;
@@ -20,6 +21,7 @@ export class PimPage extends BasePage {
     this.employeeNameSearchInput = page.getByPlaceholder('Type for hints...').first();
     this.searchButton = page.getByRole('button', { name: 'Search' });
     this.employeeTableRows = page.locator('.oxd-table-card');
+    this.deleteConfirmButton = page.getByRole('button', { name: 'Yes, Delete' });
 
     this.firstNameInput = page.locator('input[name="firstName"]');
     this.lastNameInput = page.locator('input[name="lastName"]');
@@ -41,5 +43,12 @@ export class PimPage extends BasePage {
     await this.firstNameInput.fill(firstName);
     await this.lastNameInput.fill(lastName);
     await this.saveButton.click();
+  }
+
+  /** Deletes the first row of the current search results. Used to clean up
+   * records created by tests so the shared demo instance doesn't accumulate data. */
+  async deleteFirstSearchResult() {
+    await this.employeeTableRows.first().locator('button').last().click();
+    await this.deleteConfirmButton.click();
   }
 }

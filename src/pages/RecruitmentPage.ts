@@ -7,6 +7,7 @@ export class RecruitmentPage extends BasePage {
   readonly candidateNameSearchInput: Locator;
   readonly searchButton: Locator;
   readonly candidateTableRows: Locator;
+  readonly saveButton: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -15,10 +16,15 @@ export class RecruitmentPage extends BasePage {
     this.candidateNameSearchInput = page.locator('.oxd-table-filter-area input').first();
     this.searchButton = page.getByRole('button', { name: 'Search' });
     this.candidateTableRows = page.locator('.oxd-table-card');
+    this.saveButton = page.getByRole('button', { name: 'Save' });
   }
 
   async open() {
     await this.goto('/web/index.php/recruitment/viewCandidates');
+  }
+
+  async openAddCandidateForm() {
+    await this.goto('/web/index.php/recruitment/addCandidate');
   }
 
   async searchByCandidateName(name: string) {

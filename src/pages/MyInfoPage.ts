@@ -15,5 +15,6 @@ export class MyInfoPage extends BasePage {
 
   async open() {
     await this.goto('/web/index.php/pim/viewMyDetails');
+    await this.waitForReady(this.pageHeader);
   }
 }

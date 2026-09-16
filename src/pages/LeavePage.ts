@@ -21,6 +21,7 @@ export class LeavePage extends BasePage {
 
   async open() {
     await this.goto('/web/index.php/leave/viewLeaveModule');
+    await this.waitForReady(this.pageHeader);
   }
 
   async goToApply() {

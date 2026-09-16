@@ -26,6 +26,9 @@ test.describe('Admin', () => {
   test('search with non-existent username shows no records @regression', async ({ adminPage, page }) => {
     await adminPage.searchByUsername('NonExistentUser999');
 
-    await expect(page.getByText('No Records Found')).toBeVisible();
+    // Admin's zero-result search also fires a toast reading the same text, so match
+    // only the table's empty-state <span> (the toast renders a <p>) to avoid a strict-mode
+    // violation from two visible matches.
+    await expect(page.locator('span.oxd-text', { hasText: 'No Records Found' })).toBeVisible();
   });
 });

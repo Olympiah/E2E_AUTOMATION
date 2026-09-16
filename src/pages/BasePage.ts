@@ -7,6 +7,13 @@ export class BasePage {
     await this.page.goto(path);
   }
 
+  /** Waits for a page-ready signal (e.g. the breadcrumb) with a longer timeout than the
+   * global default — several modules (PIM, Leave, Recruitment) only render it once their
+   * list-data XHR completes, which routinely exceeds the 5s expect timeout in CI. */
+  async waitForReady(locator: Locator, timeout = 15_000) {
+    await locator.waitFor({ state: 'visible', timeout });
+  }
+
   async expectUrlContains(fragment: string) {
     await expect(this.page).toHaveURL(new RegExp(fragment));
   }

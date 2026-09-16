@@ -30,6 +30,7 @@ export class PimPage extends BasePage {
 
   async open() {
     await this.goto('/web/index.php/pim/viewEmployeeList');
+    await this.waitForReady(this.pageHeader);
   }
 
   async searchByEmployeeName(name: string) {

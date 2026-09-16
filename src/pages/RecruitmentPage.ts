@@ -21,10 +21,12 @@ export class RecruitmentPage extends BasePage {
 
   async open() {
     await this.goto('/web/index.php/recruitment/viewCandidates');
+    await this.waitForReady(this.pageHeader);
   }
 
   async openAddCandidateForm() {
     await this.goto('/web/index.php/recruitment/addCandidate');
+    await this.waitForReady(this.pageHeader);
   }
 
   async searchByCandidateName(name: string) {
